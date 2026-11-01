@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cape Town AI Weather & Climate Prediction</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<header><div class="eyebrow">Cape Town Climate Intelligence · Research prototype</div>
+<h1>AI for Weather & Climate Prediction Modelling</h1>
+<div class="sub">From innovation to adoption — historical climate analytics, machine-learning evaluation, experimental projections and spatial climate indicators for the City of Cape Town, South Africa.</div>
+<div class="chips"><span class="chip">Study area: City of Cape Town</span><span class="chip">Historical period: 2002–2025</span><span class="chip">Random Forest research models</span><span class="chip">Monthly & annual climate indicators</span></div></header>
+<main>
+<div class="warning"><b>Research prototype — not an operational forecast service.</b> Uploaded files include experimental 2026 projections. Treat them as model outputs for research and validation, not official weather forecasts or public warnings. Browser visualisations do not execute the supplied Joblib/Python models.</div>
+
+<div class="heading"><div><h2>Data package & uploads</h2><p>The supplied ZIP archive is already loaded below. Upload a replacement ZIP or additional individual files to refresh the dashboard.</p></div><span class="pill" id="state">32 package files embedded</span></div>
+<section class="card"><div class="grid three">
+<div class="upload"><strong>Upload complete ZIP package</strong><input id="zipUpload" type="file" accept=".zip"></div>
+<div class="upload"><strong>Upload multiple CSV / JSON / PNG / Joblib files</strong><input id="multiUpload" type="file" multiple accept=".csv,.json,.png,.joblib"></div>
+<div class="upload"><strong>Package status</strong><div class="status" id="uploadStatus">Original attached model-output archive loaded. Select files then click Import.</div><div class="actions"><button id="importBtn">Import selected files</button><button class="alt" id="resetBtn">Restore attached package</button></div></div>
+</div><div class="status">CSV, JSON and PNG files are rendered in the dashboard. Joblib files are retained in the package inventory; execute them with Python/scikit-learn, not in a browser.</div></section>
+
+<div class="heading"><div><h2>Climate overview</h2><p>Statistics computed from the included monthly 2002–2025 dataset.</p></div></div>
+<section class="grid kpis">
+<div class="card"><div class="klabel">Monthly observations</div><div class="value" id="kRecords">—</div><div class="note" id="kPeriod">—</div></div>
+<div class="card"><div class="klabel">Mean monthly rainfall</div><div class="value" id="kRain">—</div><div class="note">mm/month</div></div>
+<div class="card"><div class="klabel">Mean temperature</div><div class="value" id="kTemp">—</div><div class="note">°C</div></div>
+<div class="card"><div class="klabel">Mean soil moisture</div><div class="value" id="kSoil">—</div><div class="note">m³/m³</div></div>
+<div class="card"><div class="klabel">Mean NDVI</div><div class="value" id="kNdvi">—</div><div class="note">dimensionless</div></div>
+</section>
+
+<div class="heading"><div><h2>Historical monthly climate signals</h2><p>Observed monthly records from the supplied CSV.</p></div></div>
+<section class="grid two">
+<div class="card"><h3>Rainfall (mm/month)</h3><canvas id="cRain" class="chart"></canvas></div>
+<div class="card"><h3>Mean air temperature (°C)</h3><canvas id="cTemp" class="chart"></canvas></div>
+<div class="card"><h3>Soil moisture (m³/m³)</h3><canvas id="cSoil" class="chart"></canvas></div>
+<div class="card"><h3>NDVI</h3><canvas id="cNdvi" class="chart"></canvas></div></section>
+
+<div class="heading"><div><h2>Annual climate trends</h2><p>Source-provided trend estimates and annual series.</p></div></div>
+<section class="grid two"><div class="card"><h3>Annual rainfall</h3><canvas id="aRain" class="chart"></canvas></div><div class="card"><h3>Annual temperature</h3><canvas id="aTemp" class="chart"></canvas></div></section>
+<section class="card" style="margin-top:14px"><h3>Annual linear trend summary</h3><div class="scroll"><table><thead><tr><th>Variable</th><th>Slope / year</th><th>Slope / decade</th><th>Period</th><th>Observations</th></tr></thead><tbody id="trendRows"></tbody></table></div></section>
+
+<div class="heading"><div><h2>Geographic climate indicators</h2><p>Point-based coordinate visualisations using the supplied spatial CSV.</p></div></div>
+<section class="grid two">
+<div class="card"><h3>Mean annual rainfall (mm/year)</h3><canvas id="sRain" class="chart tall"></canvas></div>
+<div class="card"><h3>Mean temperature (°C)</h3><canvas id="sTemp" class="chart tall"></canvas></div>
+<div class="card"><h3>Mean soil moisture (m³/m³)</h3><canvas id="sSoil" class="chart tall"></canvas></div>
+<div class="card"><h3>Mean NDVI</h3><canvas id="sNdvi" class="chart tall"></canvas></div></section>
+
+<div class="heading"><div><h2>AI model evaluation</h2><p>Actual metrics and test-set predictions supplied in the ZIP.</p></div></div>
+<section class="card"><div class="scroll"><table><thead><tr><th>Target</th><th>Model</th><th>MAE</th><th>RMSE</th><th>R²</th><th>Test samples</th></tr></thead><tbody id="metricRows"></tbody></table></div>
+<div class="status" id="metricInsight"></div><div style="margin-top:16px"><h3>Test-set rainfall: observed, Random Forest and seasonal baseline</h3><canvas id="predRain" class="chart"></canvas></div>
+<div style="margin-top:16px"><h3>Test-set temperature: observed, Random Forest and seasonal baseline</h3><canvas id="predTemp" class="chart"></canvas></div></section>
+
+<div class="heading"><div><h2>Experimental future projections</h2><p>Source-provided forecast CSVs; values are displayed without relabelling as verified forecasts.</p></div></div>
+<section class="grid two">
+<div class="card"><h3>Experimental 12-month projection (2026)</h3><canvas id="f12" class="chart"></canvas><div class="scroll"><table><thead><tr><th>Date</th><th>Rainfall mm</th><th>Temperature °C</th></tr></thead><tbody id="f12Rows"></tbody></table></div></div>
+<div class="card"><h3>Six-month climate forecast file</h3><canvas id="f6" class="chart"></canvas><div class="scroll"><table><thead><tr><th>Date</th><th>Rainfall mm</th><th>Temperature °C</th></tr></thead><tbody id="f6Rows"></tbody></table></div></div>
+</section>
+<section class="card" style="margin-top:14px"><h3>Experimental next-month prediction file</h3><div class="grid three" id="nextMonth"></div></section>
+
+<div class="heading"><div><h2>Feature importance</h2><p>Random Forest feature importance values supplied by the Python model workflow.</p></div></div>
+<section class="grid two"><div class="card"><h3>Rainfall model — leading features</h3><canvas id="impRain" class="chart tall"></canvas></div><div class="card"><h3>Temperature model — leading features</h3><canvas id="impTemp" class="chart tall"></canvas></div></section>
+
+<div class="heading"><div><h2>Generated research figures</h2><p>PNG figures included in the attached model-output archive.</p></div></div>
+<section class="card"><div class="gallery" id="gallery"></div></section>
+
+<div class="heading"><div><h2>Data quality & package inventory</h2><p>Files included in the supplied ZIP archive.</p></div></div>
+<section class="grid two">
+<div class="card"><h3>Monthly data quality report</h3><div class="scroll"><table><thead><tr><th>Column</th><th>Missing values</th></tr></thead><tbody id="qualityRows"></tbody></table></div></div>
+<div class="card"><h3>Included files</h3><div class="filelist" id="inventory"></div></div></section>
+
+<div class="heading"><div><h2>Methods, interpretation & limitations</h2><p>Based on the supplied run information and exported model outputs.</p></div></div>
+<section class="grid three">
+<div class="card"><h3>Input predictors</h3><p>Monthly rainfall, temperature, soil moisture and NDVI, seasonal calendar terms, time index and lagged predictors.</p></div>
+<div class="card"><h3>Model configuration</h3><p>RandomForestRegressor, chronological 80/20 train-test split, with a seasonal-climatology comparison. The supplied run metadata identifies this as a research prototype.</p></div>
+<div class="card"><h3>Validation metrics</h3><p>MAE, RMSE and R² are reported for rainfall and temperature. Performance should be interpreted relative to the seasonal baseline and the limited test sample.</p></div>
+</section>
+<section class="card" style="margin-top:14px"><h3>Interpretation of supplied evaluation results</h3><ul id="interpretation" style="color:var(--muted);padding-left:20px"></ul><h3 style="margin-top:16px">Important limitations</h3><ul style="color:var(--muted);padding-left:20px"><li>These outputs are research model results, not official forecasts, nowcasts or early-warning products.</li><li>Rainfall performance should be assessed carefully: the supplied Random Forest has a slightly higher MAE and slightly lower RMSE than seasonal climatology.</li><li>Temperature results are strong, but the seasonal baseline marginally outperforms Random Forest on the supplied MAE, RMSE and R².</li><li>Spatial charts show sampled grid points and are not continuous interpolated maps.</li><li>Forecast horizon, input data availability, uncertainty, independent validation and operational monitoring require further assessment.</li><li>Joblib model files are included in the package but must be loaded and run in a compatible Python environment.</li></ul></section>
+</main><footer>AI for Weather and Climate Prediction: From Innovation to Adoption · City of Cape Town, South Africa · Research prototype</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="app.js"></script>
+</body></html>
