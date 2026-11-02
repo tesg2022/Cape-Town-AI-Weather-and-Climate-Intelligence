@@ -1,0 +1,5 @@
+variable,model,MAE,RMSE,R2,test_samples
+rainfall,Random Forest,32.866,64.478,0.27,57
+rainfall,Seasonal climatology,32.186,65.011,0.257,57
+temperature,Random Forest,0.647,0.8,0.947,57
+temperature,Seasonal climatology,0.616,0.764,0.952,57
